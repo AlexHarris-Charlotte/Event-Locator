@@ -3,6 +3,11 @@ const apiKey = "IoUptOnWtiIUKp6lNP8RET0crIirQd0T";
 var submitButton = $("#submit");
 submitButton.on("click", submit);
 
+const contentRow1 = $("#contentRow1");
+const contentRow2 = $("#contentRow2");
+const contentRow3 = $("#contentRow3");
+const contentRow4 = $("#contentRow4");
+
 
 function submit (event) {
     event.preventDefault;
@@ -27,34 +32,26 @@ function submit (event) {
         dataType: "json"
     }).done(function(response){
         console.log(response);
-        for(var i = 0; i < 4; i++) {
-            if(i === 0) {let newDivRow = $("<div class='row paddingFix'>" +
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded'src=" + response._embedded.events[0].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[0].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[0]._embedded.venues[0].name + "/ Date " + response._embedded.events[0].dates.start.localDate + "</p> </div>" +  
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[1].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[1].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[1]._embedded.venues[0].name + "/ Date " + response._embedded.events[1].dates.start.localDate + "</p> </div>" + 
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[2].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[2].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[2]._embedded.venues[0].name + "/ Date " + response._embedded.events[2].dates.start.localDate + "</p> </div> </div>");
-            newDivRow.addClass("row");
-            appendDiv.append(newDivRow);
-        } else if(i === 1) {
-            let newDivRow = $("<div class='row paddingFix'>" +
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[3].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[3].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[3]._embedded.venues[0].name + "/ Date " + response._embedded.events[3].dates.start.localDate + "</p> </div>" +  
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[4].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[4].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[4]._embedded.venues[0].name + "/ Date " + response._embedded.events[4].dates.start.localDate + "</p> </div>" + 
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[5].images[9].url + "<div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[5].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[5]._embedded.venues[0].name + "/ Date " + response._embedded.events[5].dates.start.localDate + "</p> </div> </div>");
-            newDivRow.addClass("row");
-            appendDiv.append(newDivRow);
-        } else if(i === 2) {
-            let newDivRow = $("<div class='row paddingFix'>" +
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[6].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[6].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[6]._embedded.venues[0].name + "/ Date " + response._embedded.events[6].dates.start.localDate + "</p> </div>" +  
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[7].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[7].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[7]._embedded.venues[0].name + "/ Date " + response._embedded.events[7].dates.start.localDate + "</p> </div>" + 
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[8].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[8].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[8]._embedded.venues[0].name + "/ Date " + response._embedded.events[8].dates.start.localDate + "</p> </div> </div>");
-            newDivRow.addClass("row");
-            appendDiv.append(newDivRow);
-        } else {
-            let newDivRow = $("<div class='row paddingFix'>" +
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[9].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[9].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[9]._embedded.venues[0].name + "/ Date " + response._embedded.events[9].dates.start.localDate + "</p> </div>" +  
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[10].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[10].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[10]._embedded.venues[0].name + "/ Date " + response._embedded.events[10].dates.start.localDate + "</p> </div>" + 
-            "<div class='col-sm-4 card inline'> <img class='card-img-top image center img-fluid rounded' src=" + response._embedded.events[11].images[9].url + " alt=Image <div class=card-body> <h5 class='card-title text-center'>" + response._embedded.events[11].name + "</h5> <p class='card-text text-center'>" + response._embedded.events[11]._embedded.venues[0].name + "/ Date " + response._embedded.events[11].dates.start.localDate + "</p> </div> </div>");
-            appendDiv.append(newDivRow);
-        }
+        for(var i = 0; i < 12; i++) {
+            let newDiv = $("<div class='col-sm-4 card inline'>");
+            let newImg = $("<img class='card-img-top image center img-fluid rounded'src=" + response._embedded.events[i].images[9].url + " alt=Image />");
+            let cardHeader = $("<h5 class='card-title text-center'>" + response._embedded.events[i].name + "</h5>");
+            let cardP = $("<p class='card-text text-center'>" + response._embedded.events[i]._embedded.venues[0].name + "/ Date " + response._embedded.events[i].dates.start.localDate + "</p>")
+        
+            newDiv.append(newImg)
+                  .append(cardHeader)
+                  .append(cardP);
+            
+            if(i < 3) {
+                contentRow1.append(newDiv);
+            } else if(i > 2 && i < 6) {
+                contentRow2.append(newDiv);
+            } else if(i > 5 && i < 9) {
+                contentRow3.append(newDiv);
+            } else {
+                contentRow4.append(newDiv);
+            }
+        
         }
     })
 
