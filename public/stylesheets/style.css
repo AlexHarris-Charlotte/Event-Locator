@@ -1,0 +1,25 @@
+.btn:hover {
+    cursor: pointer;
+}
+
+/* .image {
+    max-width: 350px;
+    max-height: 350px;
+} */
+
+.inline {
+    display: inline;
+}
+
+.center {
+    display: block;
+    margin: 0 auto;
+}
+
+.paddingFix {
+    padding-left: 15px;
+}
+
+.infoBtn {
+    
+}
