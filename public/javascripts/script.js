@@ -9,6 +9,8 @@ const contentRow3 = $("#contentRow3");
 const contentRow4 = $("#contentRow4");
 
 
+
+
 function submit (event) {
     event.preventDefault;
     const keyword = $("#entertain").val().trim();
@@ -32,15 +34,34 @@ function submit (event) {
         dataType: "json"
     }).done(function(response){
         console.log(response);
+
+        const ball = '<i class="fas fa-basketball-ball"></i>';
+        const music = '<i class="fas fa-music"></i>';
+        const comedy = '<i class="fab fa-jenkins"></i>';
+
         for(var i = 0; i < 12; i++) {
-            let newDiv = $("<div class='col-sm-4 card inline'>");
+            const responseSeg = response._embedded.events[i].classifications[0].segment.name; 
+            var favicon;
+            if(responseSeg === "Sports") {
+                favicon = ball;
+            } else if (responseSeg === "Music") {
+                favicon = music;
+            } else {
+                favicon = comedy;
+            }
+
+
+            let newDiv = $("<div class='col-sm-4 card inline top'>");
             let newImg = $("<img class='card-img-top image center img-fluid rounded'src=" + response._embedded.events[i].images[9].url + " alt=Image />");
             let cardHeader = $("<h5 class='card-title text-center'>" + response._embedded.events[i].name + "</h5>");
             let cardP = $("<p class='card-text text-center'>" + response._embedded.events[i]._embedded.venues[0].name + "/ Date " + response._embedded.events[i].dates.start.localDate + "</p>")
-        
+            let newButton = $("<button class='btn btn-success center info' value=" + i + "> More Info  " + favicon + "</button");
+
+
             newDiv.append(newImg)
                   .append(cardHeader)
-                  .append(cardP);
+                  .append(cardP)
+                  .append(newButton);
             
             if(i < 3) {
                 contentRow1.append(newDiv);
@@ -53,6 +74,42 @@ function submit (event) {
             }
         
         }
+        
+        // Modal functionality
+
+        const modal = $("#modal");
+        const modalContent = $("#modalContent");
+
+
+        // When the user clicks on the button, open the modal
+        $(".info").on("click", function() {
+            modal.css("display", "block");
+            let index = this.value;
+            let modalImage = $("<img class='col-sm-6 img-fluid rounded' src=" + response._embedded.events[index].images[9].url + " alt=Image />");
+            // GOOGLE MAPS DIRECTIONS PLACE HOLDER IMAGE BELOW
+            let placeholder = $("<img class='col-sm-6 img-fluid rounded' src=images/placeholder.jpg alt=Image />");
+            let closeBtn = $("<span id='close'><button class='btn btn-danger'>Close</button></span>"); 
+            let newDivRow = $("<div class='row'></div>")
+
+            // Probably a good idea to make 1 div per column and append like data
+            // to each div so they are responsive together
+
+            // Need to style modal images
+            modalContent.append(closeBtn)
+                        .append(newDivRow);
+            newDivRow.append(modalImage)
+                     .append(placeholder);
+
+            closeBtn.on("click", function() {
+                modal.css("display", "none");
+                modalContent.empty();
+            });
+        })
+
+        
+
+  
+
     })
 
 }
