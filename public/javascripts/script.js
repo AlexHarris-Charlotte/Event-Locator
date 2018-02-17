@@ -1,4 +1,5 @@
-const apiKey = "IoUptOnWtiIUKp6lNP8RET0crIirQd0T";
+const ticketMasterApiKey = "IoUptOnWtiIUKp6lNP8RET0crIirQd0T";
+const googleMapsApiKey = "AIzaSyCOzjrDoygKdBVPmnzbjQ17zvw49Nbofvg";
 
 var submitButton = $("#submit");
 submitButton.on("click", submit);
@@ -28,33 +29,49 @@ function submit (event) {
     // can implement google maps api to get you directions + map from your current location
     // based on navigator object within browser
 
+    // sort response cards by event date
+
     $.ajax({
         url: "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&city=Charlotte&apikey=IoUptOnWtiIUKp6lNP8RET0crIirQd0T",
         method: "GET",
         dataType: "json"
     }).done(function(response){
         console.log(response);
-
+        const sortedDate = [];
         const ball = '<i class="fas fa-basketball-ball"></i>';
         const music = '<i class="fas fa-music"></i>';
         const comedy = '<i class="fab fa-jenkins"></i>';
 
+        // sort responses by Date of event
         for(var i = 0; i < 12; i++) {
-            const responseSeg = response._embedded.events[i].classifications[0].segment.name; 
+            sortedDate.push(response._embedded.events[i]);
+            console.log(sortedDate);
+        }
+
+        sortedDate.sort(function(a,b) {
+            return new Date(a.dates.start.localDate) - new Date(b.dates.start.localDate);
+        })
+
+
+        for(var i = 0; i < sortedDate.length; i++) {
+            const responseSeg = sortedDate[i].classifications[0].segment.name; 
             var favicon;
-            if(responseSeg === "Sports") {
-                favicon = ball;
-            } else if (responseSeg === "Music") {
-                favicon = music;
-            } else {
-                favicon = comedy;
+            switch (responseSeg) {
+                case "Sports":
+                    favicon = ball;
+                    break;
+                case "Music":
+                    favicon = music;
+                    break;
+                default:
+                    favicon = comedy;
             }
 
 
             let newDiv = $("<div class='col-sm-4 card inline top'>");
-            let newImg = $("<img class='card-img-top image center img-fluid rounded'src=" + response._embedded.events[i].images[9].url + " alt=Image />");
-            let cardHeader = $("<h5 class='card-title text-center'>" + response._embedded.events[i].name + "</h5>");
-            let cardP = $("<p class='card-text text-center'>" + response._embedded.events[i]._embedded.venues[0].name + "/ Date " + response._embedded.events[i].dates.start.localDate + "</p>")
+            let newImg = $("<img class='card-img-top center img-fluid rounded'src=" + sortedDate[i].images[9].url + " alt=Image />");
+            let cardHeader = $("<h5 class='card-title text-center'>" + sortedDate[i].name + "</h5>");
+            let cardP = $("<p class='card-text text-center'>" + sortedDate[i]._embedded.venues[0].name + "/ Date " + sortedDate[i].dates.start.localDate + "</p>")
             let newButton = $("<button class='btn btn-success center info' value=" + i + "> More Info  " + favicon + "</button");
 
 
@@ -73,44 +90,58 @@ function submit (event) {
                 contentRow4.append(newDiv);
             }
         
+            // Modal functionality
         }
-        
-        // Modal functionality
-
         const modal = $("#modal");
         const modalContent = $("#modalContent");
 
 
         // When the user clicks on the button, open the modal
-        $(".info").on("click", function() {
+        $(".info").on("click", modalCall);
+
+        function modalCall() {
             modal.css("display", "block");
             let index = this.value;
-            let modalImage = $("<img class='col-sm-6 img-fluid rounded' src=" + response._embedded.events[index].images[9].url + " alt=Image />");
+            let modalImage = $("<img class='img-fluid rounded' src=" + response._embedded.events[index].images[9].url + " alt=Image />");
             // GOOGLE MAPS DIRECTIONS PLACE HOLDER IMAGE BELOW
-            let placeholder = $("<img class='col-sm-6 img-fluid rounded' src=images/placeholder.jpg alt=Image />");
-            let closeBtn = $("<span id='close'><button class='btn btn-danger'>Close</button></span>"); 
-            let newDivRow = $("<div class='row'></div>")
+            let placeholder = $("<img class='col img-fluid rounded' src=images/placeholder.jpg alt=Image />");
+            let closeBtn = $("<span id='close'><button class='btn btn-danger'>Close</button></span>");
+            closeBtn.css("float", "right"); 
+            let newDivRow = $("<div class='row'></div>");
+            let contentDiv = $("<div class='col-sm-6'></div>");
+            let mapDiv = $("<div id='map' class='col-sm-6'></div>");
 
-            // Probably a good idea to make 1 div per column and append like data
-            // to each div so they are responsive together
+
+            // Google maps
+            var map;
+            function initMap() {
+                map = new google.maps.Map($("#map"), {
+                center: {lat: -34.397, lng: 150.644},
+                zoom: 8
+            }   );
+            }
+
 
             // Need to style modal images
             modalContent.append(closeBtn)
                         .append(newDivRow);
-            newDivRow.append(modalImage)
-                     .append(placeholder);
+            newDivRow.append(contentDiv)
+                        .append(mapDiv);
+            contentDiv.append(modalImage);
+            // mapDiv.append(placeholder);
+            
 
             closeBtn.on("click", function() {
                 modal.css("display", "none");
                 modalContent.empty();
             });
-        })
+   
+        }
 
-        
-
-  
-
+    }).fail(function(error){
+        alert("Error");
     })
-
 }
+
+
 

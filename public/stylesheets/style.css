@@ -18,10 +18,27 @@
     margin-top: 10px;
 }
 
+.image {
+    max-width: 400px;
+    max-height: 400px;
+}
 
 
- /* The Modal (background) */
- .modal {
+/* Google Maps  */
+
+#map {
+    height: 100%;
+}
+
+  /* html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+} */
+
+
+/* The Modal (background) */
+.modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
