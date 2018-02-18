@@ -12,19 +12,60 @@ $(document).ready(function(){
     const contentRow4 = $("#contentRow4");
     const contentRowArr = [contentRow1, contentRow2, contentRow3, contentRow4,]
 
-    // function initMap(venueLat, venueLng) {
-    //     var city = {lat: venueLat, lng: venueLng};
-    //     var map = new google.maps.Map(document.getElementById('modalRowRight'), {
-    //       center: city,
-    //       zoom: 8
-    //     });
-    //     var marker = new google.maps.Marker({
-    //         position: city,
-    //         map: map
-    //     });
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 1000*30,
+        maximumAge: 1000 * 60
+    }
 
-    //     return marker;
-    // }
+    function success(pos) {
+        let coordinates = pos.coords;
+        let userLat = coordinates.latitude
+        let userLng = coordinates.longitude
+        let userCoordinates = [userLat, userLng];
+        console.log(userCoordinates);
+        return userCoordinates;
+    };
+
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
+
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    var directionsMap;
+    function initMap(venueLat, venueLng) {
+        var city = new google.maps.LatLng(venueLat, venueLng);
+        var mapOptions = {
+            zoom: 8,
+            center: city
+        }
+        directionsMap = new google.maps.Map(document.getElementById('modalRowRight'), mapOptions);
+        directionsDisplay.setMap(directionsMap);
+    }
+
+
+    function calcRoute(venueLat, venueLng, userCoordinates) {
+        console.log(userCoordinates);
+        var venueLocation = new google.maps.LatLng(venueLat, venueLng);
+        // test value
+        var start = new google.maps.LatLng(userCoordinates[0], userCoordinates[1]);
+        // var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+        var request = {
+        origin: chicago,
+        destination: venueLocation,
+        travelMode: 'DRIVING'
+        };
+        directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+            console.log("OK!!!!!")
+            directionsDisplay.setDirections(result);
+        }
+        });
+    }
+
 
 
     function submit (event) {
@@ -106,8 +147,9 @@ $(document).ready(function(){
                     contentRow4.append(newDiv);
                 }
             
-                // Modal functionality
             }
+
+            // Modal functionality
             const modal = $("#modal");
             const modalRowLeft = $("#modalRowLeft");
             const modalRowRight = $("#modalRowRight");
@@ -126,7 +168,9 @@ $(document).ready(function(){
                 console.log(typeof(venueLat));
                 console.log(venueLat);
                 modalRowLeft.append(modalImage);
+                calcRoute(venueLat, venueLng, success());
                 modalRowRight.append(initMap(venueLat, venueLng));
+                // calcRoute(venueLat, venueLng, userCoordinates);
                 
 
                 closeBtn.on("click", function() {
