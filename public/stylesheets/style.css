@@ -10,8 +10,9 @@
 
 
 
-.info {
-    
+#pageButtons {
+    margin: 0 auto;
+    display: table;
 }
 
 .top {

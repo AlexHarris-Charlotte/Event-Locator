@@ -9,7 +9,8 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
     <title>Venues</title>
 </head>
-<body>
+<!-- The data attribute on the body handles the state in which we display events -->
+<body id="body" data-page="1">
     <section class="container">
         <form>
             <div class="form-group">
@@ -37,6 +38,11 @@
         <div class="row" id="contentRow4">
 
         </div>
+        <!-- Page Selection Buttons -->
+        <div id="pageButtons">
+            <!-- <button id="prev" class="btn"> &lt&lt Previous Page</button>
+            <button id="next" class="btn">Next Page >></button> -->
+        </div>
 
         <!-- Modal -->
         <div id="modal" class="modal">
@@ -57,7 +63,8 @@
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script> 
     <script src="javascripts/maps.js"></script>
-    <script src="javascripts/script.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOzjrDoygKdBVPmnzbjQ17zvw49Nbofvg&callback=initMap"></script>
+    <script src="javascripts/script.js"></script>
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOzjrDoygKdBVPmnzbjQ17zvw49Nbofvg&callback=initMap"></script> -->
 </body>
 </html>
